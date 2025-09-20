@@ -124,6 +124,17 @@ At a node prompt (`Node 005 >`):
 
 ---
 
+## Group Members (CS324)
+
+- Sione Likiliki
+- Seiloni Utuone
+- Fasi Tangataevaha
+- Lanuongo Guttenbeil
+
+Assignment: LCR Leader Election with Centralized Registration.
+
+---
+
 ## 🤝 Contributing
 
 1. Fork the repo  
