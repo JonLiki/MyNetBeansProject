@@ -5,12 +5,10 @@
 package cs324.election.with.register;
 
 /**
- *
- * @author sione.likiliki
+ * Interface for the peer register, extending Node for compatibility.
  */
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface PeerRegister extends Node {
@@ -47,4 +45,11 @@ public interface PeerRegister extends Node {
      * @throws RemoteException If retrieval fails.
      */
     int[] getRegisteredNodes() throws RemoteException;
+
+    /**
+     * Rebuilds the ring topology after node recovery or changes.
+     *
+     * @throws RemoteException If remote call fails.
+     */
+    void rebuildRing() throws RemoteException;
 }
