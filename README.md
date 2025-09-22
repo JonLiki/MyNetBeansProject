@@ -162,5 +162,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file.
 
 ---
 
-🔥 Built with passion for distributed systems education.  
->>>>>>> b212495cb36aa8506ae91e6d0c9887d719d73088
+🔥 Built with passion for distributed systems education. 
