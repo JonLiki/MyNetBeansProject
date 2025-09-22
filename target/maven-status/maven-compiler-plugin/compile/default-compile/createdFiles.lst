@@ -1,4 +1,7 @@
 cs324\election\with\register\Node.class
+cs324\election\with\register\NodeImpl$RemoteRunnable.class
 cs324\election\with\register\NodeImpl.class
-cs324\election\with\register\PeerRegister.class
 cs324\election\with\register\PeerRegisterImpl.class
+cs324\election\with\register\Logger$LogLevel.class
+cs324\election\with\register\PeerRegister.class
+cs324\election\with\register\Logger.class
