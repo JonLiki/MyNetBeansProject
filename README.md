@@ -88,7 +88,6 @@ At a node prompt (`Node 005 >`):
 ## 📸 Demo
 
 ### Election
-![Election Demo Placeholder](screenshots/election-demo.gif)
 
 1. Node 5 starts an election.  
 2. UID 11 wins as leader.  
