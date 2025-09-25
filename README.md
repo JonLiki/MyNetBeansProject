@@ -1,12 +1,18 @@
 # 📘 LCR Leader Election with Centralized Registration
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Java](https://img.shields.io/badge/Java-8+-blue.svg)](https://openjdk.org/)
 [![Maven](https://img.shields.io/badge/Maven-3.6+-orange.svg)](https://maven.apache.org/)
 
-A distributed systems project implementing the **Le Lann–Chang–Roberts (LCR) Leader Election Algorithm** in a unidirectional ring topology. This version adds a centralized **Peer Register Service** to coordinate node registration and fault handling via **Java RMI**.
+A distributed systems project implementing the **Le Lann–Chang–Roberts (LCR) Leader Election Algorithm** in a unidirectional ring topology. 
+
+This version adds a centralized **Peer Register Service** to coordinate node registration and fault handling via **Java RMI**.
 
 ---
+
+## Overview
+This project demonstrates distributed leader election in implementing the Le Lann-Chang-Roberts (LCR) leader election algorithm in a unidirectional ring topology using RMI (Remote Method Invocation). 
+
+This distributed system elects the node with the highest unique ID as the leader through message passing, enhanced with a centralized `PeerRegister` service to manage node registration, ring topology and fault handling.
 
 ## ✨ Features
 
@@ -52,6 +58,18 @@ git clone https://github.com/yourusername/election-with-register.git
 cd election-with-register
 mvn clean compile
 ```
+
+## Visual Feedback (Color & Emoji Support)
+
+For best presentation results, enable UTF-8 output in each terminal before starting the nodes. This ensures that ANSI colors and emojis display correctly.
+
+In **PowerShell**, run:
+```
+chcp 65001
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+```
+Now when you run the nodes, log messages will include **color-coded text and emojis** for clearer visual feedback.
 
 ### Running
 1. Start the Peer Register:
