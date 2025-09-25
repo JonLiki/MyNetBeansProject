@@ -156,7 +156,7 @@ All nodes: leaderId = 11, electionCompleted = true
 - Fasi Tangataevaha  
 - Lanuongo Guttenbeil  
 
-Assignment: LCR Leader Election with Centralized Registration._
+Assignment: LCR Leader Election with Centralized Registration.
 
 ## License
 
