@@ -46,38 +46,46 @@ Open 5 terminals: one for the PeerRegister and four for the nodes.
 cd <project-root>
 java -cp target/classes cs324.election.with.register.PeerRegisterImpl
 ```
-![PeerRegister](image)
+<img width="1349" height="174" alt="image" src="https://github.com/user-attachments/assets/06d01129-a59b-4a3d-827e-ce71f153b27f" />
+
 
 ### Terminal 2 (Node 5)
 ```bash
 cd <project-root>
 java -cp target/classes cs324.election.with.register.NodeImpl 5
 ```
-![Node 5](image)
+<img width="730" height="224" alt="image" src="https://github.com/user-attachments/assets/714c472a-5a9e-42e1-8a82-3fee2663aac2" />
+
 
 ### Terminal 3 (Node 11)
 ```bash
 cd <project-root>
 java -cp target/classes cs324.election.with.register.NodeImpl 11
 ```
-![Node 11](image)
+<img width="697" height="251" alt="image" src="https://github.com/user-attachments/assets/bb0b229e-dcde-4dbc-802a-8de10840aa8f" />
+
 
 ### Terminal 4 (Node 2)
 ```bash
 cd <project-root>
 java -cp target/classes cs324.election.with.register.NodeImpl 2
 ```
-![Node 2](image)
+<img width="731" height="239" alt="image" src="https://github.com/user-attachments/assets/26c53b0a-142b-4290-87be-510082f51e9f" />
+
 
 ### Terminal 5 (Node 7)
 ```bash
 cd <project-root>
 java -cp target/classes cs324.election.with.register.NodeImpl 7
 ```
-![Node 7](image)
+<img width="705" height="230" alt="image" src="https://github.com/user-attachments/assets/ae61b694-1209-4690-a8c1-a4ce48e0e8da" />
 
-1. The PeerRegister will start and wait for registrations. Nodes will register automatically and form the ring.  
-2. Each node terminal will present an interactive prompt.  
+
+1. The PeerRegister will start and wait for registrations. Nodes will register automatically and form the ring.
+2. Each node terminal will present an interactive prompt.
+   
+  <img width="1919" height="1031" alt="image" src="https://github.com/user-attachments/assets/edb19ca3-b261-4e7e-8991-f25215769625" />
+
 3. On any node terminal, type:
 
 ```bash
@@ -101,7 +109,8 @@ to begin the leader election.
 All nodes: leaderId = 11, electionCompleted = true
 ```
 
-![Example Output](image)
+<img width="1919" height="1031" alt="image" src="https://github.com/user-attachments/assets/2c941fd8-d8d0-4a5d-8aba-08c65917525a" />
+
 
 ## Notes
 
@@ -147,23 +156,8 @@ All nodes: leaderId = 11, electionCompleted = true
 - Fasi Tangataevaha  
 - Lanuongo Guttenbeil  
 
-_Assignment: LCR Leader Election with Centralized Registration._
+Assignment: LCR Leader Election with Centralized Registration._
 
 ## License
 
 For academic use in distributed systems coursework.
-
-## About
-
-No description, website, or topics provided.
-
-## Releases
-
-No releases published.
-
-## Packages
-
-No packages published.
-
----
-_End of README_
