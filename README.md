@@ -1,6 +1,7 @@
 # LCR Leader Election with Centralized Registration using Java RMI
 
-Java Maven
+[![Java](https://img.shields.io/badge/Java-8+-blue.svg)](https://openjdk.org/)
+[![Maven](https://img.shields.io/badge/Maven-3.6+-orange.svg)](https://maven.apache.org/)
 
 This project implements the Le Lann–Chang–Roberts (LCR) leader election algorithm over a ring topology using Java RMI, enhanced with a centralized `PeerRegister` service for node registration, dynamic ring management, and fault tolerance.
 
@@ -17,8 +18,8 @@ This project demonstrates distributed leader election using the LCR algorithm wi
 
 ## Setup
 
-0. Install Java 11+ and ensure `java` and `javac` are on your PATH.  
-1. Compile the source code:
+1. Install Java 11+ and ensure `java` and `javac` are on your PATH.  
+2. Compile the source code:
 
 ```bash
 javac -d target/classes src/main/java/cs324/election/with/register/*.java
