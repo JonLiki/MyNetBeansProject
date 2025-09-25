@@ -1,183 +1,169 @@
-# 📘 LCR Leader Election with Centralized Registration
+# LCR Leader Election with Centralized Registration using Java RMI
 
-[![Java](https://img.shields.io/badge/Java-8+-blue.svg)](https://openjdk.org/)
-[![Maven](https://img.shields.io/badge/Maven-3.6+-orange.svg)](https://maven.apache.org/)
+Java Maven
 
-A distributed systems project implementing the **Le Lann–Chang–Roberts (LCR) Leader Election Algorithm** in a unidirectional ring topology. 
-
-This version adds a centralized **Peer Register Service** to coordinate node registration and fault handling via **Java RMI**.
-
----
+This project implements the Le Lann–Chang–Roberts (LCR) leader election algorithm over a ring topology using Java RMI, enhanced with a centralized `PeerRegister` service for node registration, dynamic ring management, and fault tolerance.
 
 ## Overview
-This project demonstrates distributed leader election in implementing the Le Lann-Chang-Roberts (LCR) leader election algorithm in a unidirectional ring topology using RMI (Remote Method Invocation). 
 
-This distributed system elects the node with the highest unique ID as the leader through message passing, enhanced with a centralized `PeerRegister` service to manage node registration, ring topology and fault handling.
+This project demonstrates distributed leader election using the LCR algorithm with centralized coordination to handle dynamic node joins, failures, and recoveries. It is designed as a coursework assignment for distributed systems, showing how nodes in a ring topology coordinate through message passing over Java RMI, with added resilience features like heartbeat monitoring and automatic ring rebuilding.
 
-## ✨ Features
+## Requirements
 
-- **Leader Election (LCR)**: Correct Chang–Roberts variant for unidirectional rings  
-- **Centralized Registration**: Avoids race conditions with a `PeerRegister`  
-- **Fault Tolerance**: Failure simulation, recovery, and re-election  
-- **Interactive CLI**: Commands for election, monitoring, failures, recovery  
-- **Dynamic Topology**: Ring rebuilds on join/leave  
-- **Heartbeat Monitoring**: Detects leader crashes and retriggers election  
-- **Colorized Logging**: Easy-to-follow, timestamped console output  
+- Java 11 or newer  
+- NetBeans or any Java IDE (optional)  
+- 5 terminals (or processes): 1 for PeerRegister, 4 for nodes  
+- Classes compiled to `target/classes`  
 
----
+## Setup
 
-## 🏗️ Architecture
+0. Install Java 11+ and ensure `java` and `javac` are on your PATH.  
+1. Compile the source code:
 
-### Components
-| Component       | Role                                          | Port         |
-|-----------------|-----------------------------------------------|--------------|
-| **PeerRegister** | Central registry for ring management          | `1099` (RMI) |
-| **Node**        | Distributed process implementing LCR          | Dynamic RMI  |
-| **Ring**        | Unidirectional logical ring managed centrally | —            |
-
-### Workflow
-```
-Register → Ring Setup → Election → Leader Propagation → Acceptance
-```
-<img width="272" height="928" alt="image" src="https://github.com/user-attachments/assets/8332a880-eae8-4b6e-9388-aded0c0c6c97" />
-
-
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-- **Java 8+** (tested on OpenJDK 11/17)  
-- **Maven 3.6+**  
-- A terminal supporting **ANSI colors**
-
-### Installation
 ```bash
-git clone https://github.com/yourusername/election-with-register.git
-cd election-with-register
-mvn clean compile
+javac -d target/classes src/main/java/cs324/election/with/register/*.java
 ```
 
 ## Visual Feedback (Color & Emoji Support)
 
-For best presentation results, enable UTF-8 output in each terminal before starting the nodes. This ensures that ANSI colors and emojis display correctly.
+For best presentation results, enable UTF-8 output in each terminal before starting the components. This ensures that ANSI colors and emojis display correctly.
 
-In **PowerShell**, run:
-```
+In PowerShell, run:
+
+```powershell
 chcp 65001
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-
 ```
-Now when you run the nodes, log messages will include **color-coded text and emojis** for clearer visual feedback.
 
-### Running
-1. Start the Peer Register:
-   ```bash
-   java -cp target/classes cs324.election.with.register.PeerRegisterImpl
-   ```
-2. Start nodes in separate terminals:
-   ```bash
-   java -cp target/classes cs324.election.with.register.NodeImpl 5
-   java -cp target/classes cs324.election.with.register.NodeImpl 11
-   java -cp target/classes cs324.election.with.register.NodeImpl 2
-   java -cp target/classes cs324.election.with.register.NodeImpl 7
-   ```
+Now when you run the PeerRegister and nodes, log messages will include color-coded text and emojis for clearer visual feedback.
 
----
+## Running the Simulation
 
-## 🎮 Commands
+Open 5 terminals: one for the PeerRegister and four for the nodes.
 
-At a node prompt (`Node 005 >`):
+### Terminal 1 (PeerRegister)
+```bash
+cd <project-root>
+java -cp target/classes cs324.election.with.register.PeerRegisterImpl
+```
+![PeerRegister](image)
 
-| Command   | Action                        |
-|-----------|-------------------------------|
-| `start`   | Start election                |
-| `leader`  | Show current leader           |
-| `kill`    | Simulate node failure         |
-| `recover` | Recover node                  |
-| `status`  | Display node status           |
-| `debug`   | Verbose report                |
-| `reset`   | Reset election state          |
-| `exit`    | Shut down node                |
+### Terminal 2 (Node 5)
+```bash
+cd <project-root>
+java -cp target/classes cs324.election.with.register.NodeImpl 5
+```
+![Node 5](image)
 
----
+### Terminal 3 (Node 11)
+```bash
+cd <project-root>
+java -cp target/classes cs324.election.with.register.NodeImpl 11
+```
+![Node 11](image)
 
-## 📸 Demo
+### Terminal 4 (Node 2)
+```bash
+cd <project-root>
+java -cp target/classes cs324.election.with.register.NodeImpl 2
+```
+![Node 2](image)
 
-### Election
+### Terminal 5 (Node 7)
+```bash
+cd <project-root>
+java -cp target/classes cs324.election.with.register.NodeImpl 7
+```
+![Node 7](image)
 
-1. Node 5 starts an election.  
-2. UID 11 wins as leader.  
-3. All nodes accept and acknowledge leader.  
+1. The PeerRegister will start and wait for registrations. Nodes will register automatically and form the ring.  
+2. Each node terminal will present an interactive prompt.  
+3. On any node terminal, type:
 
-### Failure & Recovery
-- Kill node mid-election → ring rebuilds  
-- Recover node → automatic re-election triggered  
+```bash
+start
+```
 
----
+to begin the leader election.
 
-## 📚 Algorithm
+4. Messages will circulate around the ring.  
+5. At the end, the node with the highest ID will declare itself as leader and broadcast this result.
 
-**Chang–Roberts (LCR) Variant**
+## Example Output
 
-- Initiator sends `<candidate=ID, origin=ID>`  
-- Highest UID propagates around ring  
-- When UID returns, leader is elected  
-- Complexity:  
-  - Best: **O(N)** messages  
-  - Worst: **O(N²)** messages  
+```text
+[Node-5] initiating election with UID=5
+[Node-11] received ELECTION(5), replaces with 11
+[Node-2] received ELECTION(11), forwards unchanged
+[Node-7] received ELECTION(11), forwards unchanged
+[Node-11] received its own UID -> declares LEADER
+[Node-11] broadcasting LEADER(11)
+All nodes: leaderId = 11, electionCompleted = true
+```
 
----
+![Example Output](image)
 
-## 🛠️ Troubleshooting
+## Notes
 
-| Problem              | Fix                                |
-|----------------------|------------------------------------|
-| `Connection refused` | Start PeerRegister first           |
-| Duplicate node IDs   | Use unique UIDs (2,5,7,11, etc.)   |
-| Election timeout     | Increase `ELECTION_TIMEOUT` value  |
-| No color output      | Switch to VS Code, iTerm, etc.     |
+- The PeerRegister runs on port 1099 and manages the ring topology.  
+- Nodes must be started after the PeerRegister.  
+- Only unique IDs are valid. Duplicate IDs break the algorithm.  
+- The system supports fault tolerance: simulate failure with `kill` and recovery with `recover`.  
+- Heartbeat monitoring automatically detects leader failures and triggers re-elections.  
 
----
+## Commands (interactive prompt)
+
+- `start` – start an election  
+- `leader` – show current leader  
+- `kill` – simulate node failure  
+- `recover` – recover node  
+- `status` – display node status  
+- `debug` – verbose report  
+- `reset` – reset election state  
+- `help` – show commands  
+- `exit` – shut down node  
+
+## Algorithm Summary
+
+- **Election rule**: Forward the larger of (incoming UID, local ID).  
+- **Leader detection**: When a node receives its own UID back, it declares itself leader.  
+- **Leader announcement**: The leader sends a `LEADER(id)` message around the ring until it returns.  
+- **Enhancements**: Centralized registration pauses during elections; heartbeats trigger ring rebuilds on failure.  
+
+**Complexity**: O(n²) messages for the election plus O(n) for the leader announcement.
+
+## Troubleshooting
+
+- `Connection refused`: Ensure PeerRegister is running on port 1099.  
+- `NotBoundException`: Verify node names/IDs and start order.  
+- Election timeout: Increase `ELECTION_TIMEOUT` value.  
+- No color output: Enable UTF-8 in terminals.  
+- Re-election fails: Ensure all nodes are alive; check heartbeat interval.  
 
 ## Group Members (CS324)
 
-- Sione Likiliki
-- Seiloni Utuone
-- Fasi Tangataevaha
-- Lanuongo Guttenbeil
+- Sione Likiliki  
+- Seiloni Utuone  
+- Fasi Tangataevaha  
+- Lanuongo Guttenbeil  
 
-Assignment: LCR Leader Election with Centralized Registration.
+_Assignment: LCR Leader Election with Centralized Registration._
 
----
+## License
 
-## 🤝 Contributing
+For academic use in distributed systems coursework.
 
-1. Fork the repo  
-2. Create a feature branch (`git checkout -b feature/foo`)  
-3. Commit changes (`git commit -m 'Add feature foo'`)  
-4. Push branch (`git push origin feature/foo`)  
-5. Open a Pull Request  
+## About
 
-Style Guide:
-- [Google Java Style](https://google.github.io/styleguide/javaguide.html)  
-- 100-char line limit  
-- Javadoc for public methods  
+No description, website, or topics provided.
 
----
+## Releases
 
-## 📄 License
+No releases published.
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file.  
+## Packages
+
+No packages published.
 
 ---
-
-## 📖 References
-
-- Chang, E., & Roberts, R. (1979). “An improved algorithm for decentralized extrema-finding in circular configurations of processes.” *Communications of the ACM*.  
-- Tanenbaum, A. S., & Van Steen, M. (2017). *Distributed Systems: Principles and Paradigms*.  
-
----
-
-🔥 Built with passion for distributed systems education. 
+_End of README_
