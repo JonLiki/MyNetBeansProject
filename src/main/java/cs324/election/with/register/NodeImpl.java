@@ -1,10 +1,9 @@
 /*
- * Enhanced LCR Leader Election Implementation with Register - BULLETPROOF CIRCUIT COMPLETION
+ * LCR Leader Election Implementation with Register
  */
 package cs324.election.with.register;
 
 import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -22,6 +21,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * Implementation of the Node interface for LCR leader election with central
  * register. Enhanced with demo features: visuals, failure simulation,
  * interactive CLI, etc.
+ * 
+ * @author sione.likiliki
  */
 public class NodeImpl extends UnicastRemoteObject implements Node {
 
@@ -40,7 +41,7 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
     private final AtomicInteger electionRound = new AtomicInteger(0);
     private final ReentrantLock electionLock = new ReentrantLock();
 
-    // FIXED: Recovery coordination
+    // Recovery coordination
     private final AtomicBoolean recoveryInitiated = new AtomicBoolean(false);
     private static final Object recoveryCoordination = new Object();
 
@@ -71,14 +72,14 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
      */
     public NodeImpl(int nodeId) throws RemoteException {
         this.id = nodeId;
-        Logger.setLogLevel(Logger.LogLevel.WARN); // Default to WARN for simplified output
+        Logger.setLogLevel(Logger.LogLevel.WARN);
         updateStatus("READY");
         printStartupMessage();
         startHeartbeatMonitor();
     }
 
     /**
-     * FIXED: Coordinated heartbeat monitoring with recovery coordination
+     * Coordinated heartbeat monitoring with recovery coordination
      */
     private void startHeartbeatMonitor() {
         heartbeatScheduler = Executors.newSingleThreadScheduledExecutor();
@@ -90,7 +91,7 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
                 } catch (Exception e) {
                     System.out.println("💥 Node " + id + ": Leader " + leaderId + " FAILED! Preparing re-election.");
 
-                    // FIXED: Coordinate recovery to prevent multiple initiators
+                    // Coordinate recovery to prevent multiple initiators
                     synchronized (recoveryCoordination) {
                         if (recoveryInitiated.compareAndSet(false, true)) {
                             // This node coordinates the recovery
@@ -130,10 +131,10 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
     }
 
     /**
-     * FIXED: Dedicated recovery election that coordinates with other nodes
+     * Dedicated recovery election that coordinates with other nodes
      */
     private void initiateRecoveryElection() throws RemoteException {
-        // FIXED: Always allow recovery election (bypass normal checks)
+        // Always allow recovery election (bypass normal checks)
         if (nextNode == null) {
             System.err.println("❌ Node " + id + ": Cannot initiate recovery election - no ring connection");
             recoveryInitiated.set(false); // Allow retry
@@ -201,7 +202,7 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
     }
 
     /**
-     * FIXED: Connection change detection to reduce duplicate logging
+     * Connection change detection to reduce duplicate logging
      */
     @Override
     public void setNextNode(Node nextNode) throws RemoteException {
@@ -278,7 +279,7 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
     }
 
     /**
-     * BULLETPROOF LCR ELECTION HANDLING
+     * LCR ELECTION HANDLING
      */
     @Override
     public void receiveElection(int candidateId, int originId) throws RemoteException {
@@ -305,7 +306,7 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
                 return;
             }
 
-            // FIXED LOGIC: Handle both higher candidate AND originator replacement
+            // Handle both higher candidate AND originator replacement
             if (candidateId > id || (candidateId == id && originId != id)) {
                 // Either forwarding higher ID OR claiming originator status
                 if (candidateId == id && originId != id) {
@@ -356,11 +357,11 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
     }
 
     /**
-     * FIXED: Block normal elections during recovery coordination
+     * Block normal elections during recovery coordination
      */
     @Override
     public void initiateElection() throws RemoteException {
-        // FIXED: Block normal elections during recovery coordination
+        // Block normal elections during recovery coordination
         if (electionInProgress.get() || recoveryInitiated.get() || (electionCompleted.get() && leaderId != -1)) {
             System.out.println("⚠️ Node " + id + ": Cannot start normal election - recovery in progress or valid leader exists");
             return;
@@ -381,7 +382,7 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
         int currentRound = electionRound.incrementAndGet();
         System.out.println("🚀 Node " + id + ": Initiating election (Round " + currentRound + ")");
 
-        // FIXED: Rebuild ring before starting to ensure valid topology
+        // Rebuild ring before starting to ensure valid topology
         try {
             peerRegister.rebuildRing();
             System.out.println("🔧 Node " + id + ": Pre-election ring rebuild complete");
@@ -454,7 +455,7 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
     }
 
     /**
-     * FIXED: Reset recovery coordination on successful election
+     * Reset recovery coordination on successful election
      */
     private void announceLeader(int leaderId) {
         this.leaderId = leaderId;
@@ -463,7 +464,7 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
         electionInProgress.set(false);
         electionCompleted.set(true);
 
-        // FIXED: Reset recovery coordination on successful election
+        // Reset recovery coordination on successful election
         recoveryInitiated.set(false);
 
         updateStatus("LEADER_ANNOUNCED(" + leaderId + ")");
@@ -512,13 +513,13 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
     }
 
     /**
-     * FIXED: Enhanced reset for full recovery
+     * Enhanced reset for full recovery
      */
     private void resetElectionState() {
         electionInProgress.set(false);
         leaderAnnounced.set(false);
         electionCompleted.set(false);
-        // FIXED: Also reset leader flags for recovery
+        // Also reset leader flags for recovery
         isLeader = false;
         // Do not reset leaderId here - handler sets to -1
         if (timeoutScheduler != null && !timeoutScheduler.isShutdown()) {
@@ -622,12 +623,12 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
     }
 
     /**
-     * FIXED: Enhanced shutdown with explicit alive state
+     * Enhanced shutdown with explicit alive state
      */
     private void shutdown() {
         System.out.println("🛑 Node " + id + ": Shutting down node...");
 
-        // FIXED: Explicitly set alive false before unbind
+        // Explicitly set alive false before unbind
         isAlive = false;
 
         // Shutdown executors
@@ -664,7 +665,7 @@ public class NodeImpl extends UnicastRemoteObject implements Node {
         while (true) {
             try {
                 System.out.print("Node " + String.format("%03d", id) + " > ");
-                System.out.flush(); // Ensure prompt appears immediately
+                System.out.flush();
 
                 String command = scanner.nextLine().trim().toLowerCase();
 

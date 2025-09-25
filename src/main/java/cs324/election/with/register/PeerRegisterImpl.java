@@ -1,5 +1,5 @@
 /*
- * Enhanced Peer Register Implementation for LCR Leader Election
+ * Peer Register Implementation for LCR Leader Election
  */
 package cs324.election.with.register;
 
@@ -21,12 +21,12 @@ public class PeerRegisterImpl extends UnicastRemoteObject implements PeerRegiste
     public Registry registry;
     private ArrayList<Integer> peers = new ArrayList<>(); // Maintains registration order
     private boolean electionInProgress = false;
-    private boolean recoveryMode = false; // FIXED: Track recovery elections
+    private boolean recoveryMode = false; // Track recovery elections
 
     // Ring building lock to prevent race conditions
     private final ReentrantLock ringLock = new ReentrantLock();
 
-    // FIXED: Coordination lock for election starts/ends
+    // Coordination lock for election starts/ends
     private final Object electionCoordination = new Object();
 
     /**
@@ -38,7 +38,7 @@ public class PeerRegisterImpl extends UnicastRemoteObject implements PeerRegiste
         // Initialize registry FIRST, before any other operations
         this.registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
         peers.add(id);
-        Logger.setLogLevel(Logger.LogLevel.WARN); // Default to WARN for simplified output
+        Logger.setLogLevel(Logger.LogLevel.WARN);
         printStartupBanner();
     }
 
@@ -95,7 +95,7 @@ public class PeerRegisterImpl extends UnicastRemoteObject implements PeerRegiste
     }
 
     /**
-     * FIXED: Coordinated election start with lock
+     * Coordinated election start with lock
      */
     @Override
     public void beginElection() throws RemoteException {
@@ -111,7 +111,7 @@ public class PeerRegisterImpl extends UnicastRemoteObject implements PeerRegiste
     }
 
     /**
-     * FIXED: Coordinated election end with lock
+     * Coordinated election end with lock
      */
     @Override
     public void endElection() throws RemoteException {
@@ -170,7 +170,7 @@ public class PeerRegisterImpl extends UnicastRemoteObject implements PeerRegiste
             // SORT BY NODE ID for predictable topology
             Collections.sort(activeIds);
 
-            // FIXED: Properly map sorted IDs to their corresponding Node objects
+            // Properly map sorted IDs to their corresponding Node objects
             ArrayList<Node> sortedActiveNodes = new ArrayList<>();
             for (int sortedId : activeIds) {
                 // Find the Node object that matches this sorted ID
@@ -218,7 +218,7 @@ public class PeerRegisterImpl extends UnicastRemoteObject implements PeerRegiste
                 }
             }
 
-            // Single, clear summary line
+            
             String ringDesc = activeIds.stream().map(n -> String.format("%03d", n)).collect(Collectors.joining(" → ")) + " → " + String.format("%03d", activeIds.get(0));
             System.out.println("✅ RING BUILT: " + activeIds.size() + " nodes (" + ringDesc + ")");
 
@@ -229,7 +229,7 @@ public class PeerRegisterImpl extends UnicastRemoteObject implements PeerRegiste
         }
     }
 
-    // Node interface implementations (unchanged)
+    // Node interface implementations
     @Override
     public int getId() throws RemoteException {
         return id; // PeerRegister has ID 0
